@@ -65,7 +65,7 @@ if body is not None:
     from scipy.spatial import cKDTree
     d, _ = cKDTree(co).query(co * np.array([-1.0, 1.0, 1.0]))
     res["measured"]["mirror_x_max_dev_mm"] = float(d.max() * 1000)
-    check("armature modifier is plain linear-blend skinning on the rig", ("ARMATURE", RIG) in mods, mods)
+    check("armature modifier is plain linear-blend skinning on the rig", ("ARMATURE", RIG) in mods and all(not m.use_deform_preserve_volume for m in body.modifiers if m.type == "ARMATURE"), mods)
     if KEY != "none":
         exp = json.loads(EXPECT_JSON.read_text())["expected_for_blend_check"][KEY]
         m = res["measured"]
@@ -84,3 +84,5 @@ res["summary"] = {"pass": sum(c["result"] == "PASS" for c in res["checks"]), "fa
 OUT.parent.mkdir(parents=True, exist_ok=True)
 OUT.write_text(json.dumps(res, indent=1))
 print("BLEND_VERIFY", json.dumps(res["summary"]), saved_by, flush=True)
+
+sys.exit(1 if res["summary"]["fail"] else 0)

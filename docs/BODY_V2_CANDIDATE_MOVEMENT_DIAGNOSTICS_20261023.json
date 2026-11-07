@@ -1,0 +1,5014 @@
+{
+  "run_url": "https://github.com/anyangle1409-code/animation-software/actions/runs/39927465329",
+  "archive_equivalence": "FAIL",
+  "production_bridge": "INCOMPATIBLE \u2014 unchanged 67-bone production vs 77-bone authoring rig",
+  "anatomical_approval": "NOT_GRANTED",
+  "candidate_run_ids": {
+    "W8": 39923681466,
+    "V14": 39927465329,
+    "R120": 39927465329
+  },
+  "candidates": {
+    "W8": {
+      "source_sha256": "2434afd0daa231ab3a03c873cad4187ffcbc1bab78132375221160b0b0f09e4c",
+      "source_unchanged": true,
+      "measurement_tessellation": null,
+      "summary": {
+        "complete": false,
+        "quality_pass": false,
+        "quality_failures": [
+          {
+            "benchmark": "squat",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 2687
+          },
+          {
+            "benchmark": "squat",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 856
+          },
+          {
+            "benchmark": "squat",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 4
+          },
+          {
+            "benchmark": "squat",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 257
+          },
+          {
+            "benchmark": "squat",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 21
+          },
+          {
+            "benchmark": "squat",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 253
+          },
+          {
+            "benchmark": "squat",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 163
+          },
+          {
+            "benchmark": "squat",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 621
+          },
+          {
+            "benchmark": "squat",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 4
+          },
+          {
+            "benchmark": "squat",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 402
+          },
+          {
+            "benchmark": "squat",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 589
+          },
+          {
+            "benchmark": "squat",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 18
+          },
+          {
+            "benchmark": "squat",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 604
+          },
+          {
+            "benchmark": "squat",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 1141
+          },
+          {
+            "benchmark": "squat",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 34
+          },
+          {
+            "benchmark": "squat",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 885
+          },
+          {
+            "benchmark": "squat",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 1593
+          },
+          {
+            "benchmark": "squat",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 26
+          },
+          {
+            "benchmark": "squat",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 973
+          },
+          {
+            "benchmark": "squat",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 1939
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 2687
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 1149
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 2,
+            "metric": "collapse_lt_0_1",
+            "value": 1
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 27
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 864
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 3,
+            "metric": "collapse_lt_0_1",
+            "value": 2
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 88
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 824
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 5
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 156
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 770
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 108
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 918
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 67
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 1109
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 35
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 100
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 1637
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 58
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 135
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 1916
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 0,
+            "metric": "collapse_lt_0_1",
+            "value": 9
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 0,
+            "metric": "stretch_gt_2",
+            "value": 1004
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 11
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 1,
+            "metric": "collapse_lt_0_1",
+            "value": 2
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 1,
+            "metric": "stretch_gt_2",
+            "value": 1006
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 11
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 2,
+            "metric": "collapse_lt_0_1",
+            "value": 3
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 809
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 7
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 3,
+            "metric": "collapse_lt_0_1",
+            "value": 38
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 954
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 163
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 116
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 2546
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 337
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 102
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 2723
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 83
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 110
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 3509
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 146
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 116
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 1437
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 245
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 173
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 1594
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 441
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 268
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 268
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 2,
+            "metric": "collapse_lt_0_1",
+            "value": 1
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 4
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 274
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 24
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 274
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 2
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 81
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 445
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 1
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 192
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 504
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 6
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 350
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 440
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 13
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 467
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 906
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 17
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 514
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 1140
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 0,
+            "metric": "collapse_lt_0_1",
+            "value": 1
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 0,
+            "metric": "stretch_gt_2",
+            "value": 34
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 509
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 1,
+            "metric": "stretch_gt_2",
+            "value": 3
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 240
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 10
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 270
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 23
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 225
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 37
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 498
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 4
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 225
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 6
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 272
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 14
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 241
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 1
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 34
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 509
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 268
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 260
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 225
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 293
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 2
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 498
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 2
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 30
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 530
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 7
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 71
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 484
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 15
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 124
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 503
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 20
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 136
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 502
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 268
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 268
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 2
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 273
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 18
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 278
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 3
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 76
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 438
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 183
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 502
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 6
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 359
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 443
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 10
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 493
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 619
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 8
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 550
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 764
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 2687
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 2687
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 2
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 2687
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 2
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 2687
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 2
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 2687
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 2
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 2687
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 2
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 2687
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 2
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 2687
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 2
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 2687
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 0,
+            "metric": "stretch_gt_2",
+            "value": 3
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 826
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 1,
+            "metric": "stretch_gt_2",
+            "value": 2
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 740
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 5
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 315
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 57
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 32
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 1
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 304
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 59
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 3
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 682
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 295
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 83
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 1139
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 1175
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 229
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 1532
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 2355
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 184
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 1674
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 3499
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 0,
+            "metric": "collapse_lt_0_1",
+            "value": 17
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 0,
+            "metric": "stretch_gt_2",
+            "value": 469
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 1284
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 1,
+            "metric": "collapse_lt_0_1",
+            "value": 13
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 1,
+            "metric": "stretch_gt_2",
+            "value": 454
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 1271
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 2,
+            "metric": "collapse_lt_0_1",
+            "value": 20
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 410
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 1149
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 3,
+            "metric": "collapse_lt_0_1",
+            "value": 16
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 352
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 1085
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 14
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 308
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 1160
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 19
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 286
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 1025
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 53
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 261
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 1852
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 57
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 258
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 2020
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 59
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 258
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 2031
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 0,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 1878
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 1,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 1862
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 2,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 1870
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 3,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 1850
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 1837
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 1857
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 1876
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 1853
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 1813
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 0,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 1878
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 1,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 1,
+            "metric": "stretch_gt_2",
+            "value": 9
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 1878
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 2,
+            "metric": "collapse_lt_0_1",
+            "value": 33
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 178
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 1945
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 3,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 1878
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 39
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 34
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 2037
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 1878
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 1878
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 1878
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 1878
+          }
+        ],
+        "scope": "zero self-intersections, area collapse below 0.1 and stretch above 2; diagnostic only, no anatomical approval"
+      },
+      "errors": {
+        "grip": "Traceback (most recent call last):\n  File \"/home/runner/work/animation-software/animation-software/scripts/recovery_diagnostics/diagnose_candidates_blender.py\", line 88, in main\n    outcome=bench.run(only=[path],post_pose=lambda r:drives.drive(r['runtime'],r['body']))\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 852, in run\n    angles = fn(t)\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 835, in <lambda>\n    \"grip\": lambda t: pose_grip(rig, body, t),\n                      ~~~~~~~~~^^^^^^^^^^^^^^\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 730, in pose_grip\n    _THUMB_CACHE[\"solution\"] = {s: _solve_thumb(rig, s, signs, body) for s in (\"l\", \"r\")}\n                                   ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 708, in _solve_thumb\n    raise RuntimeError(\"no thumb placement within the pair limit\")\nRuntimeError: no thumb placement within the pair limit\n"
+      }
+    },
+    "V14": {
+      "source_sha256": "5969aa98122e267b6bdd94fdfaf6d2877a1b27f7ea8d11c6a8e078b467b0ff91",
+      "source_unchanged": true,
+      "measurement_tessellation": {
+        "squat": {
+          "source_polygon_count": 419870,
+          "measurement_triangle_count": 476126,
+          "vertices": 238065,
+          "derived_tessellation": true,
+          "fixed_triangle_indices_sha256": "89b516b30ad4672e450220edc960fceb32a94cf6e343461f1f8357d4d761b2b7",
+          "scope": "native rest loop-triangle indices frozen for measurement; source mesh never edited"
+        },
+        "bent_over_row": {
+          "source_polygon_count": 419870,
+          "measurement_triangle_count": 476126,
+          "vertices": 238065,
+          "derived_tessellation": true,
+          "fixed_triangle_indices_sha256": "89b516b30ad4672e450220edc960fceb32a94cf6e343461f1f8357d4d761b2b7",
+          "scope": "native rest loop-triangle indices frozen for measurement; source mesh never edited"
+        },
+        "shoulder_press": {
+          "source_polygon_count": 419870,
+          "measurement_triangle_count": 476126,
+          "vertices": 238065,
+          "derived_tessellation": true,
+          "fixed_triangle_indices_sha256": "89b516b30ad4672e450220edc960fceb32a94cf6e343461f1f8357d4d761b2b7",
+          "scope": "native rest loop-triangle indices frozen for measurement; source mesh never edited"
+        },
+        "lunge": {
+          "source_polygon_count": 419870,
+          "measurement_triangle_count": 476126,
+          "vertices": 238065,
+          "derived_tessellation": true,
+          "fixed_triangle_indices_sha256": "89b516b30ad4672e450220edc960fceb32a94cf6e343461f1f8357d4d761b2b7",
+          "scope": "native rest loop-triangle indices frozen for measurement; source mesh never edited"
+        },
+        "walk_stride": {
+          "source_polygon_count": 419870,
+          "measurement_triangle_count": 476126,
+          "vertices": 238065,
+          "derived_tessellation": true,
+          "fixed_triangle_indices_sha256": "89b516b30ad4672e450220edc960fceb32a94cf6e343461f1f8357d4d761b2b7",
+          "scope": "native rest loop-triangle indices frozen for measurement; source mesh never edited"
+        },
+        "trunk_rotation": {
+          "source_polygon_count": 419870,
+          "measurement_triangle_count": 476126,
+          "vertices": 238065,
+          "derived_tessellation": true,
+          "fixed_triangle_indices_sha256": "89b516b30ad4672e450220edc960fceb32a94cf6e343461f1f8357d4d761b2b7",
+          "scope": "native rest loop-triangle indices frozen for measurement; source mesh never edited"
+        },
+        "grip": {
+          "source_polygon_count": 419870,
+          "measurement_triangle_count": 476126,
+          "vertices": 238065,
+          "derived_tessellation": true,
+          "fixed_triangle_indices_sha256": "89b516b30ad4672e450220edc960fceb32a94cf6e343461f1f8357d4d761b2b7",
+          "scope": "native rest loop-triangle indices frozen for measurement; source mesh never edited"
+        },
+        "single_leg_stance": {
+          "source_polygon_count": 419870,
+          "measurement_triangle_count": 476126,
+          "vertices": 238065,
+          "derived_tessellation": true,
+          "fixed_triangle_indices_sha256": "89b516b30ad4672e450220edc960fceb32a94cf6e343461f1f8357d4d761b2b7",
+          "scope": "native rest loop-triangle indices frozen for measurement; source mesh never edited"
+        },
+        "calf_raise": {
+          "source_polygon_count": 419870,
+          "measurement_triangle_count": 476126,
+          "vertices": 238065,
+          "derived_tessellation": true,
+          "fixed_triangle_indices_sha256": "89b516b30ad4672e450220edc960fceb32a94cf6e343461f1f8357d4d761b2b7",
+          "scope": "native rest loop-triangle indices frozen for measurement; source mesh never edited"
+        },
+        "deadlift": {
+          "source_polygon_count": 419870,
+          "measurement_triangle_count": 476126,
+          "vertices": 238065,
+          "derived_tessellation": true,
+          "fixed_triangle_indices_sha256": "89b516b30ad4672e450220edc960fceb32a94cf6e343461f1f8357d4d761b2b7",
+          "scope": "native rest loop-triangle indices frozen for measurement; source mesh never edited"
+        },
+        "push_up": {
+          "source_polygon_count": 419870,
+          "measurement_triangle_count": 476126,
+          "vertices": 238065,
+          "derived_tessellation": true,
+          "fixed_triangle_indices_sha256": "89b516b30ad4672e450220edc960fceb32a94cf6e343461f1f8357d4d761b2b7",
+          "scope": "native rest loop-triangle indices frozen for measurement; source mesh never edited"
+        },
+        "forearm_rotation": {
+          "source_polygon_count": 419870,
+          "measurement_triangle_count": 476126,
+          "vertices": 238065,
+          "derived_tessellation": true,
+          "fixed_triangle_indices_sha256": "89b516b30ad4672e450220edc960fceb32a94cf6e343461f1f8357d4d761b2b7",
+          "scope": "native rest loop-triangle indices frozen for measurement; source mesh never edited"
+        },
+        "wrist_circuit": {
+          "source_polygon_count": 419870,
+          "measurement_triangle_count": 476126,
+          "vertices": 238065,
+          "derived_tessellation": true,
+          "fixed_triangle_indices_sha256": "89b516b30ad4672e450220edc960fceb32a94cf6e343461f1f8357d4d761b2b7",
+          "scope": "native rest loop-triangle indices frozen for measurement; source mesh never edited"
+        }
+      },
+      "summary": {
+        "complete": false,
+        "quality_pass": false,
+        "quality_failures": [
+          {
+            "benchmark": "squat",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 3036
+          },
+          {
+            "benchmark": "squat",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 1132
+          },
+          {
+            "benchmark": "squat",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 1
+          },
+          {
+            "benchmark": "squat",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 468
+          },
+          {
+            "benchmark": "squat",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 114
+          },
+          {
+            "benchmark": "squat",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 521
+          },
+          {
+            "benchmark": "squat",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 72
+          },
+          {
+            "benchmark": "squat",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 535
+          },
+          {
+            "benchmark": "squat",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 969
+          },
+          {
+            "benchmark": "squat",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 133
+          },
+          {
+            "benchmark": "squat",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 824
+          },
+          {
+            "benchmark": "squat",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 997
+          },
+          {
+            "benchmark": "squat",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 186
+          },
+          {
+            "benchmark": "squat",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 1009
+          },
+          {
+            "benchmark": "squat",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 1179
+          },
+          {
+            "benchmark": "squat",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 211
+          },
+          {
+            "benchmark": "squat",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 1238
+          },
+          {
+            "benchmark": "squat",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 1508
+          },
+          {
+            "benchmark": "squat",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 189
+          },
+          {
+            "benchmark": "squat",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 1324
+          },
+          {
+            "benchmark": "squat",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 1644
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 3036
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 1,
+            "metric": "stretch_gt_2",
+            "value": 2
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 1414
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 44
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 1094
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 3,
+            "metric": "collapse_lt_0_1",
+            "value": 2
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 309
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 1115
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 6
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 531
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 1115
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 2
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 439
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 1200
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 1
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 361
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 1485
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 33
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 441
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 2031
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 51
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 530
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 2336
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 0,
+            "metric": "collapse_lt_0_1",
+            "value": 9
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 0,
+            "metric": "stretch_gt_2",
+            "value": 1278
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 49
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 1,
+            "metric": "collapse_lt_0_1",
+            "value": 6
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 1,
+            "metric": "stretch_gt_2",
+            "value": 1297
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 50
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 2,
+            "metric": "collapse_lt_0_1",
+            "value": 3
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 1123
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 92
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 3,
+            "metric": "collapse_lt_0_1",
+            "value": 37
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 1486
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 327
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 113
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 3227
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 431
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 97
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 3516
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 192
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 115
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 4261
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 320
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 98
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 2129
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 342
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 149
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 2200
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 586
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 482
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 482
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 485
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 25
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 490
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 107
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 259
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 644
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 81
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 464
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 1011
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 143
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 640
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 1025
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 166
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 814
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 1175
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 168
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 885
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 1246
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 0,
+            "metric": "stretch_gt_2",
+            "value": 193
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 827
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 1,
+            "metric": "collapse_lt_0_1",
+            "value": 59
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 1,
+            "metric": "stretch_gt_2",
+            "value": 4
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 543
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 2,
+            "metric": "collapse_lt_0_1",
+            "value": 29
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 1
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 651
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 11
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 438
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 193
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 757
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 60
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 5
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 533
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 34
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 665
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 8
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 453
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 193
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 827
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 482
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 468
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 429
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 2
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 470
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 12
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 897
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 3
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 45
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 1075
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 7
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 91
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 1080
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 14
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 144
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 1078
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 19
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 157
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 1072
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 482
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 482
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 2,
+            "metric": "collapse_lt_0_1",
+            "value": 1
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 484
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 24
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 492
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 55
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 252
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 631
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 46
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 447
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 846
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 79
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 629
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 803
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 89
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 805
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 909
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 88
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 882
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 956
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 3036
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 3036
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 3036
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 50
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 3036
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 385
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 3036
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 621
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 3036
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 740
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 3036
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 865
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 3036
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 900
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 3036
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 0,
+            "metric": "stretch_gt_2",
+            "value": 6
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 1001
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 1,
+            "metric": "stretch_gt_2",
+            "value": 6
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 918
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 1
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 582
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 313
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 226
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 76
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 726
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 497
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 115
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 1108
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 772
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 220
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 1549
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 1126
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 433
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 2068
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 2238
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 368
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 2277
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 3488
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 0,
+            "metric": "collapse_lt_0_1",
+            "value": 72
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 0,
+            "metric": "stretch_gt_2",
+            "value": 583
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 1665
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 1,
+            "metric": "collapse_lt_0_1",
+            "value": 68
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 1,
+            "metric": "stretch_gt_2",
+            "value": 559
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 1673
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 2,
+            "metric": "collapse_lt_0_1",
+            "value": 66
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 500
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 1500
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 3,
+            "metric": "collapse_lt_0_1",
+            "value": 65
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 420
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 1393
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 63
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 351
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 1361
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 66
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 293
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 1257
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 100
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 257
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 2087
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 105
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 252
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 2263
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 107
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 252
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 2304
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 0,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 2159
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 1,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 2143
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 2,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 2151
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 3,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 2131
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 2118
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 2138
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 2157
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 2134
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 2094
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 0,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 2159
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 1,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 1,
+            "metric": "stretch_gt_2",
+            "value": 9
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 2159
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 2,
+            "metric": "collapse_lt_0_1",
+            "value": 33
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 178
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 2226
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 3,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 2159
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 39
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 34
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 2318
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 2159
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 2159
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 2159
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 2159
+          }
+        ],
+        "scope": "zero self-intersections, area collapse below 0.1 and stretch above 2; diagnostic only, no anatomical approval"
+      },
+      "errors": {
+        "grip": "Traceback (most recent call last):\n  File \"/home/runner/work/animation-software/animation-software/scripts/recovery_diagnostics/diagnose_candidates_blender.py\", line 100, in main\n    outcome=bench.run(only=[path],post_pose=lambda r:drives.drive(r['runtime'],r['body']))\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 852, in run\n    angles = fn(t)\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 835, in <lambda>\n    \"grip\": lambda t: pose_grip(rig, body, t),\n                      ~~~~~~~~~^^^^^^^^^^^^^^\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 730, in pose_grip\n    _THUMB_CACHE[\"solution\"] = {s: _solve_thumb(rig, s, signs, body) for s in (\"l\", \"r\")}\n                                   ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 708, in _solve_thumb\n    raise RuntimeError(\"no thumb placement within the pair limit\")\nRuntimeError: no thumb placement within the pair limit\n"
+      }
+    },
+    "R120": {
+      "source_sha256": "fb3b0acfc68bc59952b0fc6c45f7d7715717207fd9ba0b7f2b124e905ce2ddcb",
+      "source_unchanged": true,
+      "measurement_tessellation": {
+        "squat": {
+          "source_polygon_count": 645944,
+          "measurement_triangle_count": 695524,
+          "vertices": 347840,
+          "derived_tessellation": true,
+          "fixed_triangle_indices_sha256": "377dbcd3e269a68f14e214cd571827a82b02b735fed66dd7b61fdcf1fe930a85",
+          "scope": "native rest loop-triangle indices frozen for measurement; source mesh never edited"
+        },
+        "bent_over_row": {
+          "source_polygon_count": 645944,
+          "measurement_triangle_count": 695524,
+          "vertices": 347840,
+          "derived_tessellation": true,
+          "fixed_triangle_indices_sha256": "377dbcd3e269a68f14e214cd571827a82b02b735fed66dd7b61fdcf1fe930a85",
+          "scope": "native rest loop-triangle indices frozen for measurement; source mesh never edited"
+        },
+        "shoulder_press": {
+          "source_polygon_count": 645944,
+          "measurement_triangle_count": 695524,
+          "vertices": 347840,
+          "derived_tessellation": true,
+          "fixed_triangle_indices_sha256": "377dbcd3e269a68f14e214cd571827a82b02b735fed66dd7b61fdcf1fe930a85",
+          "scope": "native rest loop-triangle indices frozen for measurement; source mesh never edited"
+        },
+        "lunge": {
+          "source_polygon_count": 645944,
+          "measurement_triangle_count": 695524,
+          "vertices": 347840,
+          "derived_tessellation": true,
+          "fixed_triangle_indices_sha256": "377dbcd3e269a68f14e214cd571827a82b02b735fed66dd7b61fdcf1fe930a85",
+          "scope": "native rest loop-triangle indices frozen for measurement; source mesh never edited"
+        },
+        "walk_stride": {
+          "source_polygon_count": 645944,
+          "measurement_triangle_count": 695524,
+          "vertices": 347840,
+          "derived_tessellation": true,
+          "fixed_triangle_indices_sha256": "377dbcd3e269a68f14e214cd571827a82b02b735fed66dd7b61fdcf1fe930a85",
+          "scope": "native rest loop-triangle indices frozen for measurement; source mesh never edited"
+        },
+        "trunk_rotation": {
+          "source_polygon_count": 645944,
+          "measurement_triangle_count": 695524,
+          "vertices": 347840,
+          "derived_tessellation": true,
+          "fixed_triangle_indices_sha256": "377dbcd3e269a68f14e214cd571827a82b02b735fed66dd7b61fdcf1fe930a85",
+          "scope": "native rest loop-triangle indices frozen for measurement; source mesh never edited"
+        },
+        "grip": {
+          "source_polygon_count": 645944,
+          "measurement_triangle_count": 695524,
+          "vertices": 347840,
+          "derived_tessellation": true,
+          "fixed_triangle_indices_sha256": "377dbcd3e269a68f14e214cd571827a82b02b735fed66dd7b61fdcf1fe930a85",
+          "scope": "native rest loop-triangle indices frozen for measurement; source mesh never edited"
+        },
+        "single_leg_stance": {
+          "source_polygon_count": 645944,
+          "measurement_triangle_count": 695524,
+          "vertices": 347840,
+          "derived_tessellation": true,
+          "fixed_triangle_indices_sha256": "377dbcd3e269a68f14e214cd571827a82b02b735fed66dd7b61fdcf1fe930a85",
+          "scope": "native rest loop-triangle indices frozen for measurement; source mesh never edited"
+        },
+        "calf_raise": {
+          "source_polygon_count": 645944,
+          "measurement_triangle_count": 695524,
+          "vertices": 347840,
+          "derived_tessellation": true,
+          "fixed_triangle_indices_sha256": "377dbcd3e269a68f14e214cd571827a82b02b735fed66dd7b61fdcf1fe930a85",
+          "scope": "native rest loop-triangle indices frozen for measurement; source mesh never edited"
+        },
+        "deadlift": {
+          "source_polygon_count": 645944,
+          "measurement_triangle_count": 695524,
+          "vertices": 347840,
+          "derived_tessellation": true,
+          "fixed_triangle_indices_sha256": "377dbcd3e269a68f14e214cd571827a82b02b735fed66dd7b61fdcf1fe930a85",
+          "scope": "native rest loop-triangle indices frozen for measurement; source mesh never edited"
+        },
+        "push_up": {
+          "source_polygon_count": 645944,
+          "measurement_triangle_count": 695524,
+          "vertices": 347840,
+          "derived_tessellation": true,
+          "fixed_triangle_indices_sha256": "377dbcd3e269a68f14e214cd571827a82b02b735fed66dd7b61fdcf1fe930a85",
+          "scope": "native rest loop-triangle indices frozen for measurement; source mesh never edited"
+        },
+        "forearm_rotation": {
+          "source_polygon_count": 645944,
+          "measurement_triangle_count": 695524,
+          "vertices": 347840,
+          "derived_tessellation": true,
+          "fixed_triangle_indices_sha256": "377dbcd3e269a68f14e214cd571827a82b02b735fed66dd7b61fdcf1fe930a85",
+          "scope": "native rest loop-triangle indices frozen for measurement; source mesh never edited"
+        },
+        "wrist_circuit": {
+          "source_polygon_count": 645944,
+          "measurement_triangle_count": 695524,
+          "vertices": 347840,
+          "derived_tessellation": true,
+          "fixed_triangle_indices_sha256": "377dbcd3e269a68f14e214cd571827a82b02b735fed66dd7b61fdcf1fe930a85",
+          "scope": "native rest loop-triangle indices frozen for measurement; source mesh never edited"
+        }
+      },
+      "summary": {
+        "complete": false,
+        "quality_pass": false,
+        "quality_failures": [
+          {
+            "benchmark": "squat",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 3750
+          },
+          {
+            "benchmark": "squat",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 1597
+          },
+          {
+            "benchmark": "squat",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 16
+          },
+          {
+            "benchmark": "squat",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 662
+          },
+          {
+            "benchmark": "squat",
+            "frame": 3,
+            "metric": "collapse_lt_0_1",
+            "value": 2
+          },
+          {
+            "benchmark": "squat",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 89
+          },
+          {
+            "benchmark": "squat",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 692
+          },
+          {
+            "benchmark": "squat",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 71
+          },
+          {
+            "benchmark": "squat",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 532
+          },
+          {
+            "benchmark": "squat",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 1159
+          },
+          {
+            "benchmark": "squat",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 132
+          },
+          {
+            "benchmark": "squat",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 1616
+          },
+          {
+            "benchmark": "squat",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 1175
+          },
+          {
+            "benchmark": "squat",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 204
+          },
+          {
+            "benchmark": "squat",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 2695
+          },
+          {
+            "benchmark": "squat",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 1408
+          },
+          {
+            "benchmark": "squat",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 244
+          },
+          {
+            "benchmark": "squat",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 3363
+          },
+          {
+            "benchmark": "squat",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 1753
+          },
+          {
+            "benchmark": "squat",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 247
+          },
+          {
+            "benchmark": "squat",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 3585
+          },
+          {
+            "benchmark": "squat",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 1876
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 3750
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 1,
+            "metric": "stretch_gt_2",
+            "value": 6
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 1958
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 71
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 1802
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 3,
+            "metric": "collapse_lt_0_1",
+            "value": 6
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 318
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 1567
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 14
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 558
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 1587
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 4
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 362
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 1804
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 9
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 249
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 1874
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 49
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 402
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 2815
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 77
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 611
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 3192
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 0,
+            "metric": "collapse_lt_0_1",
+            "value": 111
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 0,
+            "metric": "stretch_gt_2",
+            "value": 2627
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 715
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 1,
+            "metric": "collapse_lt_0_1",
+            "value": 124
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 1,
+            "metric": "stretch_gt_2",
+            "value": 2716
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 551
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 2,
+            "metric": "collapse_lt_0_1",
+            "value": 109
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 2546
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 353
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 3,
+            "metric": "collapse_lt_0_1",
+            "value": 118
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 3880
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 588
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 270
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 7024
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 729
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 288
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 7676
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 581
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 329
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 9171
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 678
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 175
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 6316
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 796
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 227
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 6366
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 969
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 0,
+            "metric": "stretch_gt_2",
+            "value": 2
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 685
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 1,
+            "metric": "stretch_gt_2",
+            "value": 2
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 687
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 15
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 684
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 51
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 681
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 113
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 247
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 844
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 81
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 625
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 1231
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 136
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 1165
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 1300
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 164
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 1648
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 1459
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 170
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 1827
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 1500
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 0,
+            "metric": "stretch_gt_2",
+            "value": 223
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 1013
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 1,
+            "metric": "collapse_lt_0_1",
+            "value": 59
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 1,
+            "metric": "stretch_gt_2",
+            "value": 14
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 751
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 2,
+            "metric": "collapse_lt_0_1",
+            "value": 29
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 15
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 857
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 3,
+            "metric": "collapse_lt_0_1",
+            "value": 1
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 30
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 642
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 1
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 239
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 901
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 60
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 10
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 728
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 34
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 25
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 861
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 37
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 656
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 223
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 1013
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 0,
+            "metric": "stretch_gt_2",
+            "value": 2
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 685
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 1,
+            "metric": "stretch_gt_2",
+            "value": 2
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 683
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 2
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 596
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 1
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 694
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 7
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 840
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 18
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 999
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 44
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 1151
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 1
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 58
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 1111
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 1
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 64
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 1042
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 0,
+            "metric": "stretch_gt_2",
+            "value": 2
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 685
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 1,
+            "metric": "stretch_gt_2",
+            "value": 2
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 687
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 14
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 685
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 44
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 681
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 62
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 232
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 839
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 48
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 589
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 1067
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 71
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 1131
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 1086
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 86
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 1587
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 1255
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 93
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 1781
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 1283
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 3750
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 3750
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 3750
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 50
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 3750
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 384
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 3750
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 621
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 3750
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 739
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 3750
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 863
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 3750
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 899
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 3750
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 0,
+            "metric": "stretch_gt_2",
+            "value": 3
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 1376
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 1,
+            "metric": "stretch_gt_2",
+            "value": 4
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 1236
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 21
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 783
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 3,
+            "metric": "collapse_lt_0_1",
+            "value": 3
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 211
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 325
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 76
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 1155
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 611
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 142
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 2817
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 953
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 388
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 4014
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 1349
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 625
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 4704
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 2993
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 605
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 4925
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 4648
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 0,
+            "metric": "collapse_lt_0_1",
+            "value": 70
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 0,
+            "metric": "stretch_gt_2",
+            "value": 1257
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 2329
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 1,
+            "metric": "collapse_lt_0_1",
+            "value": 69
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 1,
+            "metric": "stretch_gt_2",
+            "value": 1214
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 2188
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 2,
+            "metric": "collapse_lt_0_1",
+            "value": 71
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 1122
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 2163
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 3,
+            "metric": "collapse_lt_0_1",
+            "value": 67
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 974
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 2092
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 74
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 829
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 2294
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 94
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 750
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 2323
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 108
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 719
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 3200
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 125
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 711
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 3581
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 134
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 710
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 3659
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 0,
+            "metric": "collapse_lt_0_1",
+            "value": 42
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 0,
+            "metric": "stretch_gt_2",
+            "value": 17
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 2940
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 1,
+            "metric": "collapse_lt_0_1",
+            "value": 44
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 1,
+            "metric": "stretch_gt_2",
+            "value": 16
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 2942
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 2,
+            "metric": "collapse_lt_0_1",
+            "value": 48
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 21
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 2962
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 3,
+            "metric": "collapse_lt_0_1",
+            "value": 51
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 49
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 2949
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 53
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 71
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 2951
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 49
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 27
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 2950
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 41
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 17
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 2956
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 45
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 44
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 2843
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 47
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 71
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 2842
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 0,
+            "metric": "collapse_lt_0_1",
+            "value": 42
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 0,
+            "metric": "stretch_gt_2",
+            "value": 17
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 2940
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 1,
+            "metric": "collapse_lt_0_1",
+            "value": 42
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 1,
+            "metric": "stretch_gt_2",
+            "value": 365
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 2968
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 2,
+            "metric": "collapse_lt_0_1",
+            "value": 45
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 640
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 3028
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 3,
+            "metric": "collapse_lt_0_1",
+            "value": 42
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 17
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 2940
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 50
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 486
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 3380
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 42
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 17
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 2940
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 42
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 94
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 3006
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 42
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 17
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 2940
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 43
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 255
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 3048
+          }
+        ],
+        "scope": "zero self-intersections, area collapse below 0.1 and stretch above 2; diagnostic only, no anatomical approval"
+      },
+      "errors": {
+        "grip": "Traceback (most recent call last):\n  File \"/home/runner/work/animation-software/animation-software/scripts/recovery_diagnostics/diagnose_candidates_blender.py\", line 100, in main\n    outcome=bench.run(only=[path],post_pose=lambda r:drives.drive(r['runtime'],r['body']))\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 852, in run\n    angles = fn(t)\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 835, in <lambda>\n    \"grip\": lambda t: pose_grip(rig, body, t),\n                      ~~~~~~~~~^^^^^^^^^^^^^^\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 730, in pose_grip\n    _THUMB_CACHE[\"solution\"] = {s: _solve_thumb(rig, s, signs, body) for s in (\"l\", \"r\")}\n                                   ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 708, in _solve_thumb\n    raise RuntimeError(\"no thumb placement within the pair limit\")\nRuntimeError: no thumb placement within the pair limit\n"
+      }
+    }
+  }
+}

@@ -1,0 +1,122 @@
+name: Body v2 recovered-candidate movement diagnostics
+'on':
+  push:
+    branches:
+    - work/body-v2-actions-recovery-20261023
+    paths:
+    - .github/workflows/body-v2-candidate-diagnostics.yml
+    - scripts/recovery_diagnostics/**
+  workflow_dispatch: {}
+permissions:
+  contents: read
+  actions: read
+jobs:
+  diagnose:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 170
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - model: V14
+          file: body_v2_legs.blend
+        - model: R120
+          file: body_v2_rebuilt.blend
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
+      with:
+        ref: 025d5f28fa7eba2064fba565b1c9b60119cdd2cb
+        path: _r57
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
+    - name: Install pinned native diagnostics environment
+      run: 'sudo apt-get update
+
+        sudo apt-get install -y libegl1 libgl1 libxrender1 libxi6 libxkbcommon0
+
+        python -m pip install bpy==5.2.0 numpy scipy scikit-image lazy_loader packaging Pillow'
+    - name: Verify source-cohort and artifact guards
+      run: 'python -m unittest discover -s scripts/recovery_diagnostics/tests -v
+
+        python -m unittest discover -s scripts/recovery_access/tests -v
+
+        python -m unittest discover -s scripts/body_v2/tests -v'
+    - uses: actions/download-artifact@v4
+      with:
+        name: body-v2-${{ matrix.model }}-UNVERIFIED-39922636070
+        run-id: 39922636070
+        github-token: ${{ github.token }}
+        path: ${{ runner.temp }}/candidate
+    - name: Validate exact recovered bytes
+      run: 'cd "$RUNNER_TEMP/candidate"
+
+        sha256sum -c SHA256SUMS.txt'
+    - name: Run unchanged 13 paths on saved candidate references; production guard remains unchanged
+      run: 'mkdir -p "$RUNNER_TEMP/diagnostic/${{ matrix.model }}"
+
+        set -o pipefail
+
+        timeout 150m python scripts/recovery_diagnostics/diagnose_candidates_blender.py -- "$RUNNER_TEMP/candidate/${{
+        matrix.file }}" "$PWD/_r57" "$RUNNER_TEMP/diagnostic/${{ matrix.model }}/diagnostics.json" 2>&1 | tee "$RUNNER_TEMP/diagnostic/${{
+        matrix.model }}/diagnostics.log"'
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: candidate-movement-${{ matrix.model }}-${{ github.run_id }}
+        path: ${{ runner.temp }}/diagnostic
+        retention-days: 90
+        if-no-files-found: warn
+        compression-level: 6
+  record:
+    needs: diagnose
+    if: always()
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+      actions: read
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: work/body-v2-actions-recovery-20261023
+    - name: Reuse completed W8 diagnostics without repeating native measurements
+      uses: actions/download-artifact@v4
+      with:
+        name: candidate-movement-W8-39923681466
+        run-id: 39923681466
+        github-token: ${{ github.token }}
+        path: ${{ runner.temp }}/diagnostic
+    - uses: actions/download-artifact@v4
+      with:
+        pattern: candidate-movement-*-${{ github.run_id }}
+        merge-multiple: true
+        path: ${{ runner.temp }}/diagnostic
+    - name: Record true candidate diagnostics while preserving failed archive and production gates
+      env:
+        RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        RUN_ID: ${{ github.run_id }}
+      run: "python - <<'EOF'\nimport os,json\nfrom pathlib import Path\nroot=Path(os.environ['RUNNER_TEMP'])/'diagnostic'\n\
+        reports={name:json.loads((root/name/'diagnostics.json').read_text()) if (root/name/'diagnostics.json').exists()\
+        \ else {'status':'MISSING'} for name in ('W8','V14','R120')}\nsummary={'run_url':os.environ['RUN_URL'],'archive_equivalence':'FAIL','production_bridge':'INCOMPATIBLE\
+        \ \u2014 unchanged 67-bone production vs 77-bone authoring rig','anatomical_approval':'NOT_GRANTED','candidate_run_ids':{'W8':39923681466,'V14':int(os.environ['RUN_ID']),'R120':int(os.environ['RUN_ID'])},'candidates':{k:{f:r.get(f)\
+        \ for f in ('source_sha256','source_unchanged','measurement_tessellation','summary','errors')} for k,r in\
+        \ reports.items()}}\nPath('docs/BODY_V2_CANDIDATE_MOVEMENT_DIAGNOSTICS_20261023.json').write_text(json.dumps(summary,indent=2)+'\\\
+        n')\nlines=['# Recovered-candidate movement diagnostics','','Run: '+os.environ['RUN_URL'],'','Archive equivalence\
+        \ remains FAILED. Production bridge remains incompatible (67 vs 77 bones). Anatomy and production approval\
+        \ are NOT GRANTED. These diagnostics use existing saved guides and unchanged R57 movement paths; they do\
+        \ not make the candidate a production rig.','','| Candidate | All 13 paths / 9 frames complete | Zero collapse/stretch/intersections\
+        \ | Source bytes unchanged |','|---|---|---|---|']\nfor name,r in reports.items():\n s=r.get('summary',{});lines.append(f\"\
+        | {name} | {s.get('complete',False)} | {s.get('quality_pass',False)} | {r.get('source_unchanged',False)}\
+        \ |\")\nlines+=['','W8 measurements are reused from run 39923681466, preserving all failures. V14 and R120\
+        \ use fixed native rest loop-triangle indices for every pose; source polygons, vertices, metrics and thresholds\
+        \ are unchanged.','','Full per-frame measurements and tracebacks are retained in the candidate-movement\
+        \ artifacts. R120 remains experimental. Muscle attachment stays blocked until source/content gates and anatomical\
+        \ review are resolved.']\nPath('docs/BODY_V2_CANDIDATE_MOVEMENT_DIAGNOSTICS_20261023.md').write_text('\\\
+        n'.join(lines)+'\\n')\nEOF\ngit config user.name 'github-actions[bot]'\ngit config user.email '41898282+github-actions[bot]@users.noreply.github.com'\n\
+        git add docs/BODY_V2_CANDIDATE_MOVEMENT_DIAGNOSTICS_20261023.json docs/BODY_V2_CANDIDATE_MOVEMENT_DIAGNOSTICS_20261023.md\n\
+        git commit -m \"docs: record candidate diagnostics without promoting failed recovery gates\"\ngit push origin\
+        \ HEAD:work/body-v2-actions-recovery-20261023"

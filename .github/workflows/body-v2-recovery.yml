@@ -1,0 +1,390 @@
+name: Body v2 isolated recovery
+'on':
+  push:
+    branches:
+    - work/body-v2-actions-recovery-20261023
+    paths:
+    - .github/workflows/body-v2-recovery.yml
+    - scripts/body_v2/**
+  workflow_dispatch:
+    inputs:
+      reuse_initial:
+        description: Reuse first run outputs when present, then reverify exact bytes
+        type: boolean
+        default: true
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: body-v2-recovery-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  recover:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    env:
+      PY: python
+      LIBGL_ALWAYS_SOFTWARE: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      V2_SKIN_SCALE: '1'
+      V2_SKIN_SAMPLES: '24'
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.event.pull_request.head.sha || github.sha }}
+        fetch-depth: 0
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
+    - name: Install Blender 5.2 and scientific dependencies
+      run: 'sudo apt-get update
+
+        sudo apt-get install -y libegl1 libgl1 libxrender1 libxi6 libxkbcommon0 xvfb
+
+        python -m pip install bpy==5.2.0 numpy scipy scikit-image lazy_loader packaging Pillow
+
+        python -m pip freeze > "$RUNNER_TEMP/dependencies.txt"
+
+        python -c "import bpy; assert bpy.app.version[:2] == (5, 2); print(bpy.app.version_string, bpy.app.build_hash)"
+
+        '
+    - name: Recovery guard regression tests
+      run: python -m unittest discover -s scripts/body_v2/tests -v
+    - name: Retrieve first recovery outputs without repeating completed reconstruction
+      uses: actions/download-artifact@v4
+      continue-on-error: true
+      with:
+        name: body-v2-recovery-39916468327-1
+        run-id: 39916468327
+        github-token: ${{ github.token }}
+        path: ${{ runner.temp }}/initial-recovery
+    - name: Reconstruct and verify W8, v14 and separate experimental R120
+      run: "set -o pipefail\ninitial=\"$RUNNER_TEMP/initial-recovery\"\nout=\"$RUNNER_TEMP/body-v2\"\nif [ \"$REUSE_INITIAL\"\
+        \ = true ] && [ -f \"$initial/W8/body_v2.blend\" ] && [ -f \"$initial/V14/body_v2_legs.blend\" ] && [ -f\
+        \ \"$initial/R120/body_v2_rebuilt.blend\" ]; then\n  mv \"$initial\" \"$out\"\n  chmod -R u+w \"$out\"\n\
+        \  git fetch origin codex/r57-local-s7-temporal-study-20261020\n  src=\"$RUNNER_TEMP/reverify-r57\"\n  git\
+        \ worktree add --detach \"$src\" 025d5f28fa7eba2064fba565b1c9b60119cdd2cb\n  failed=0\n  python -I scripts/body_v2/verify_offline_evidence.py\
+        \ \"$PWD\" \"$src\" \"$out/verify/offline_evidence_check.json\" || failed=1\n  python -I scripts/body_v2/compare_rebuild_to_archive.py\
+        \ \"$PWD\" \"$out/W8\" \"$out/verify/w8_vs_archive.json\" || failed=1\n  python scripts/body_v2/verify_body_v2_blend.py\
+        \ -- \"$out/W8/body_v2.blend\" v13s_w8 \"$out/verify/offline_evidence_check.json\" \"$out/verify/w8_blend.json\"\
+        \ || failed=1\n  python scripts/body_v2/verify_body_v2_blend.py -- \"$out/V14/body_v2_legs.blend\" draft_v14b_torso\
+        \ \"$out/verify/offline_evidence_check.json\" \"$out/verify/v14_blend.json\" || failed=1\n  python scripts/body_v2/verify_body_v2_blend.py\
+        \ -- \"$out/R120/body_v2_rebuilt.blend\" none \"$out/verify/offline_evidence_check.json\" \"$out/verify/r120_blend.json\"\
+        \ || failed=1\n  python - \"$PWD\" \"$out\" <<'EOF'\nimport json,sys\nfrom pathlib import Path\nrepo,out=map(Path,sys.argv[1:])\n\
+        a=json.loads((repo/'review-assets/body_v2/draft_v14b_torso/legs_v2_report.json').read_text())\nb=json.loads((out/'V14/legs_v2_report.json').read_text())\n\
+        bad={k:[a.get(k),b.get(k)] for k in set(a)|set(b) if a.get(k)!=b.get(k)}\n(out/'verify/v14_report_vs_archive.json').write_text(json.dumps({'identical':not\
+        \ bad,'differences':bad},indent=2))\nEOF\n  python -c \"import json,sys;sys.exit(not json.load(open(sys.argv[1]))['identical'])\"\
+        \ \"$out/verify/v14_report_vs_archive.json\" || failed=1\n  mkdir -p \"$out/ci\"\n  printf '%s\\n' 'Exact\
+        \ model bytes reused from run 39916468327; native verification repeated at current commit.' > \"$out/ci/reuse-provenance.txt\"\
+        \n  git worktree remove --force \"$src\"\n  exit \"$failed\"\nelse\n  xvfb-run -a bash scripts/body_v2/rebuild_w8_v14_verified.sh\
+        \ \"$out\" 2>&1 | tee \"$RUNNER_TEMP/recovery.log\"\nfi"
+      env:
+        REUSE_INITIAL: ${{ github.event_name != 'workflow_dispatch' || inputs.reuse_initial }}
+    - name: Preserve exact environment and run identity
+      if: always()
+      run: 'mkdir -p "$RUNNER_TEMP/body-v2"
+
+        chmod u+w "$RUNNER_TEMP/body-v2"
+
+        mkdir -p "$RUNNER_TEMP/body-v2/ci"
+
+        cp "$RUNNER_TEMP/dependencies.txt" "$RUNNER_TEMP/body-v2/ci/" || true
+
+        cp "$RUNNER_TEMP/recovery.log" "$RUNNER_TEMP/body-v2/ci/" || true
+
+        git rev-parse HEAD > "$RUNNER_TEMP/body-v2/ci/commit.txt"
+
+        printf ''%s\n'' "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" > "$RUNNER_TEMP/body-v2/ci/run-url.txt"
+
+        '
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: body-v2-recovery-${{ github.run_id }}-${{ github.run_attempt }}
+        path: '${{ runner.temp }}/body-v2/W8
+
+          ${{ runner.temp }}/body-v2/V14
+
+          ${{ runner.temp }}/body-v2/R120
+
+          ${{ runner.temp }}/body-v2/R120_base
+
+          ${{ runner.temp }}/body-v2/verify
+
+          ${{ runner.temp }}/body-v2/logs
+
+          ${{ runner.temp }}/body-v2/ci
+
+          ${{ runner.temp }}/body-v2/MANIFEST*
+
+          '
+        retention-days: 90
+        compression-level: 0
+        if-no-files-found: error
+  native:
+    needs: recover
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        model:
+        - R41
+        - W8
+        - V14
+        - R120
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.sha }}
+    - uses: actions/checkout@v4
+      with:
+        ref: 025d5f28fa7eba2064fba565b1c9b60119cdd2cb
+        path: _r57
+    - uses: actions/checkout@v4
+      with:
+        ref: 7c820d68de69dcdef7d567e836302123df953446
+        path: _muscle
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
+    - name: Install native validation dependencies
+      run: 'sudo apt-get update
+
+        sudo apt-get install -y libegl1 libgl1 libxrender1 libxi6 libxkbcommon0
+
+        python -m pip install bpy==5.2.0 numpy scipy scikit-image lazy_loader packaging Pillow'
+    - uses: actions/download-artifact@v4
+      with:
+        name: body-v2-recovery-${{ github.run_id }}-${{ github.run_attempt }}
+        path: ${{ runner.temp }}/recovered
+    - name: Select exact candidate
+      env:
+        MODEL: ${{ matrix.model }}
+      run: 'mkdir -p "$RUNNER_TEMP/native/$MODEL"
+
+        python - <<''EOF''
+
+        import os
+
+        from pathlib import Path
+
+        paths={''R41'':Path(''_r57/ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r41_20261017/HGPT_ORIGINAL_V1_REVIEW_R41_CODEX.blend''),
+
+        ''W8'':Path(os.environ[''RUNNER_TEMP''])/''recovered/W8/body_v2.blend'',
+
+        ''V14'':Path(os.environ[''RUNNER_TEMP''])/''recovered/V14/body_v2_legs.blend'',
+
+        ''R120'':Path(os.environ[''RUNNER_TEMP''])/''recovered/R120/body_v2_rebuilt.blend''}
+
+        p=paths[os.environ[''MODEL'']].resolve()
+
+        checks={''R41'':''none'',''W8'':''w8_blend.json'',''V14'':''v14_blend.json'',''R120'':''r120_blend.json''}
+
+        check=checks[os.environ[''MODEL'']]
+
+        verify=str(Path(os.environ[''RUNNER_TEMP''])/''recovered/verify''/check) if check!=''none'' else ''none''
+
+        with open(os.environ[''GITHUB_ENV''],''a'') as f:f.write(''MODEL_PATH=''+str(p)+''\nVERIFY_PATH=''+verify+''\n'')
+
+        EOF'
+    - name: Native inventory, immutable source
+      env:
+        MODEL: ${{ matrix.model }}
+      run: 'hash=$(sha256sum "$MODEL_PATH" | cut -d'' '' -f1)
+
+        python _muscle/experiments/anatomical_muscles/inspect_blender.py -- "$MODEL_PATH" "$hash" "$RUNNER_TEMP/native/$MODEL/inventory.json"'
+    - name: All 13 movement paths, nine frames each
+      if: always()
+      env:
+        MODEL: ${{ matrix.model }}
+      run: 'set -o pipefail
+
+        timeout 150m python scripts/body_v2/native_benchmarks_blender.py -- "$MODEL_PATH" "$PWD/_r57" "$RUNNER_TEMP/native/$MODEL/benchmarks.json"
+        "$VERIFY_PATH" 2>&1 | tee "$RUNNER_TEMP/native/$MODEL/benchmarks.log"'
+    - name: Prepare muscle experiment only after reconstruction content gates
+      if: always() && matrix.model == 'V14'
+      run: python scripts/body_v2/prepare_recovered_muscles.py "$RUNNER_TEMP/recovered" "$PWD/_muscle" "$RUNNER_TEMP/native/V14/muscle"
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: body-v2-native-${{ matrix.model }}-${{ github.run_id }}
+        path: ${{ runner.temp }}/native
+        retention-days: 90
+        compression-level: 0
+  tests:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
+      with:
+        ref: 025d5f28fa7eba2064fba565b1c9b60119cdd2cb
+        path: _r57
+    - uses: actions/checkout@v4
+      with:
+        ref: 7c820d68de69dcdef7d567e836302123df953446
+        path: _muscle
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+    - name: Install test dependencies
+      run: 'mkdir -p "$RUNNER_TEMP/tests"
+
+        sudo apt-get update
+
+        sudo apt-get install -y libegl1 libgl1
+
+        python -m pip install bpy==5.2.0 numpy scipy scikit-image lazy_loader packaging Pillow
+
+        npm ci --ignore-scripts'
+    - name: Current application tests and type checks
+      run: 'set +e
+
+        npm test -- --reporter=dot > "$RUNNER_TEMP/tests/vitest.log" 2>&1; echo $? > "$RUNNER_TEMP/tests/vitest.exit"
+
+        npm run typecheck > "$RUNNER_TEMP/tests/typecheck.log" 2>&1; echo $? > "$RUNNER_TEMP/tests/typecheck.exit"
+
+        cat "$RUNNER_TEMP/tests/"*.exit'
+      if: always()
+    - name: Pinned anatomical, skeletal and Blender test suites
+      if: always()
+      run: "set +e\nfor suite in scripts scripts/tests scripts/blender_tests; do\n  label=$(echo \"$suite\" | tr\
+        \ / _)\n  (cd _r57 && PYTHONPATH=\"$PWD/scripts:$PWD/scripts/anatomy_fit\" timeout 25m python -m unittest\
+        \ discover -s \"$suite\" -v) > \"$RUNNER_TEMP/tests/$label.log\" 2>&1\n  echo $? > \"$RUNNER_TEMP/tests/$label.exit\"\
+        \ndone\n(cd _muscle && python -m unittest discover -s experiments/anatomical_muscles/tests -v) > \"$RUNNER_TEMP/tests/muscles.log\"\
+        \ 2>&1; echo $? > \"$RUNNER_TEMP/tests/muscles.exit\"\npython -m unittest discover -s scripts/body_v2/tests\
+        \ -v > \"$RUNNER_TEMP/tests/guards.log\" 2>&1; echo $? > \"$RUNNER_TEMP/tests/guards.exit\""
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: body-v2-tests-${{ github.run_id }}
+        path: ${{ runner.temp }}/tests
+        retention-days: 90
+    - name: Fail job on any missing or failed test suite
+      if: always()
+      run: 'python - <<''EOF''
+
+        import os
+
+        from pathlib import Path
+
+        root=Path(os.environ[''RUNNER_TEMP''])/''tests''
+
+        names=(''vitest'',''typecheck'',''scripts'',''scripts_tests'',''scripts_blender_tests'',''muscles'',''guards'')
+
+        bad=[name for name in names if not (root/(name+''.exit'')).exists() or (root/(name+''.exit'')).read_text().strip()!=''0'']
+
+        if bad: raise SystemExit(''Failed or missing test suites: ''+'', ''.join(bad))
+
+        EOF'
+  record:
+    needs:
+    - recover
+    - native
+    - tests
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: write
+      actions: read
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: work/body-v2-actions-recovery-20261023
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
+    - uses: actions/download-artifact@v4
+      with:
+        name: body-v2-recovery-${{ github.run_id }}-${{ github.run_attempt }}
+        path: ${{ runner.temp }}/bundle
+    - uses: actions/download-artifact@v4
+      with:
+        pattern: body-v2-native-*-${{ github.run_id }}
+        merge-multiple: true
+        path: ${{ runner.temp }}/bundle/native
+    - uses: actions/download-artifact@v4
+      with:
+        name: body-v2-tests-${{ github.run_id }}
+        path: ${{ runner.temp }}/bundle/tests
+    - name: Finalize evidence, hashes and discrepancy record
+      env:
+        RECOVERY_RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        RECOVERY_COMMIT: ${{ github.sha }}
+      run: 'python scripts/body_v2/finalize_recovery.py "$RUNNER_TEMP/bundle"
+
+        (cd "$RUNNER_TEMP/bundle" && sha256sum -c MANIFEST.sha256 > "$RUNNER_TEMP/checksum-verification.log")
+
+        cat "$RUNNER_TEMP/bundle/RECOVERY_RESULT.md" >> "$GITHUB_STEP_SUMMARY"'
+    - name: Commit verified results to isolated recovery handover
+      run: 'cp "$RUNNER_TEMP/bundle/RECOVERY_RESULT.md" docs/BODY_V2_CLOUD_RECOVERY_RESULTS_20261023.md
+
+        python - <<''EOF''
+
+        from pathlib import Path
+
+        p=Path(''docs/BODY_V2_RECOVERY_HANDOVER_20261023.md'')
+
+        s=p.read_text(); marker=''<!-- CLOUD_RECOVERY_RESULTS -->''
+
+        s=s.split(marker)[0].rstrip()
+
+        p.write_text(s+''\n\n''+marker+''\n\n''+Path(''docs/BODY_V2_CLOUD_RECOVERY_RESULTS_20261023.md'').read_text())
+
+        EOF
+
+        git config user.name ''github-actions[bot]''
+
+        git config user.email ''41898282+github-actions[bot]@users.noreply.github.com''
+
+        git add docs/BODY_V2_RECOVERY_HANDOVER_20261023.md docs/BODY_V2_CLOUD_RECOVERY_RESULTS_20261023.md
+
+        git commit -m "docs: record cloud body recovery results and remaining gates"
+
+        git push origin HEAD:work/body-v2-actions-recovery-20261023'
+    - name: Prepare persistent draft prerelease of reconstructed candidates
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: "if python -c \"import json,os,sys; sys.exit(0 if json.load(open(os.environ['RUNNER_TEMP']+'/bundle/RECOVERY_RESULT.json'))['reconstruction_pass']\
+        \ else 1)\"; then\n  tar -czf \"$RUNNER_TEMP/body-v2-recovery-${{ github.run_id }}.tar.gz\" -C \"$RUNNER_TEMP/bundle\"\
+        \ .\n  gh release create \"body-v2-recovery-${{ github.run_id }}\" --draft --prerelease --target \"${{ github.sha\
+        \ }}\" --title \"Recovered W8/v14 candidates; R120 experimental; anatomy UNAPPROVED\" --notes-file \"$RUNNER_TEMP/bundle/RECOVERY_RESULT.md\"\
+        \ \"$RUNNER_TEMP/body-v2-recovery-${{ github.run_id }}.tar.gz\"\nfi"
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: body-v2-complete-evidence-${{ github.run_id }}
+        path: ${{ runner.temp }}/bundle
+        retention-days: 90
+        compression-level: 0
+    - name: Require complete, passing evidence without hiding quality failures
+      if: always()
+      run: 'python - <<''EOF''
+
+        import json,os
+
+        from pathlib import Path
+
+        p=Path(os.environ[''RUNNER_TEMP''])/''bundle/RECOVERY_RESULT.json''
+
+        if not p.exists(): raise SystemExit(''Recovery result missing'')
+
+        r=json.loads(p.read_text())
+
+        keys=(''reconstruction_pass'',''movement_execution_complete'',''movement_quality_pass'',''test_suites_pass'')
+
+        bad=[k for k in keys if not r.get(k)]
+
+        if bad: raise SystemExit(''Unmet gates (evidence retained): ''+'', ''.join(bad))
+
+        EOF'

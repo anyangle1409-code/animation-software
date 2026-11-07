@@ -1,0 +1,36 @@
+{
+  "status": "recovered_candidates_archive_mismatch",
+  "anatomical_approval": "NOT_GRANTED",
+  "PT_MODEL_VERSION": "1.0",
+  "models": {
+    "W8": {
+      "file": "body_v2.blend",
+      "bytes": 208036008,
+      "sha256": "2434afd0daa231ab3a03c873cad4187ffcbc1bab78132375221160b0b0f09e4c",
+      "status": "UNVERIFIED_RECONSTRUCTION"
+    },
+    "V14": {
+      "file": "body_v2_legs.blend",
+      "bytes": 211149283,
+      "sha256": "5969aa98122e267b6bdd94fdfaf6d2877a1b27f7ea8d11c6a8e078b467b0ff91",
+      "status": "UNVERIFIED_RECONSTRUCTION"
+    },
+    "R120": {
+      "file": "body_v2_rebuilt.blend",
+      "bytes": 314795547,
+      "sha256": "fb3b0acfc68bc59952b0fc6c45f7d7715717207fd9ba0b7f2b124e905ce2ddcb",
+      "status": "EXPERIMENTAL"
+    }
+  },
+  "missing": [],
+  "source_run": 39918805189,
+  "native_movement_status": "blocked_before_pose_by_67_vs_77_bone_contract",
+  "muscle_attachment": "BLOCKED \u2014 archive/structure gates not passed",
+  "artifact_urls": {
+    "W8": "https://github.com/anyangle1409-code/animation-software/actions/runs/39922636070/artifacts/12487119841",
+    "V14": "https://github.com/anyangle1409-code/animation-software/actions/runs/39922636070/artifacts/12487932177",
+    "R120": "https://github.com/anyangle1409-code/animation-software/actions/runs/39922636070/artifacts/12488550235"
+  },
+  "evidence_url": "https://github.com/anyangle1409-code/animation-software/actions/runs/39922636070/artifacts/12488495610",
+  "packaging_run_url": "https://github.com/anyangle1409-code/animation-software/actions/runs/39922636070"
+}

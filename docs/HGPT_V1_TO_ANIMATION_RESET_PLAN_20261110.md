@@ -55,6 +55,14 @@ Then, after explicit approval, use deterministic WebM/MP4 with schema-v2 animati
 ## Export fidelity gate (before any approved video render or app intake)
 Blender 5.2 glTF can export bone transforms and morph/shape-key values, but arbitrary Blender mechanisms do not necessarily survive as live runtime logic. Test exact export settings; ensure bone-driven shape-key animations are sampled/baked appropriately. Round-trip a small representative candidate clip (.blend to GLB to fresh Blender/importer or independent reader), compare rest, rack, mid and lockout frames, bone transforms, morph values, garment penetration and cameras with original. A beautiful Blender viewport result is NOT proof of correct exported motion. Keep PT-App playback on first-party rendered WebM/MP4, not a new live third-party 3D runtime.
 
+## Ready-made read-only audit scripts (prepared 10 Nov; require Blender 5.2.x to execute)
+- `scripts/preflight/v1_character_readonly_audit.py` opens the actual checkpoint and reports exact SHA-256, mesh/weight/shape-key fingerprints, rigs, bone lists/rolls, weight sums, image packing, scene names and candidate model asset details. It does not save the checkpoint.
+- Example: `blender -b /absolute/path/HGPT_FemaleV1_F83a_ManualChestRebuild_SETUP.blend --python scripts/preflight/v1_character_readonly_audit.py -- --output /tmp/f83a_report.json`
+- Run the same command on the protected `HGPT_FemaleV1_F23d_ReferenceChestShape_WIP.blend` using `/tmp/f23d_report.json`, and the latest male standing candidate using `/tmp/male_report.json`. Use absolute source paths in the actual Claude environment.
+- `scripts/preflight/compare_frozen_body_reports.py` compares the exact rest geometry, weights, and shape-key fingerprints between the F23d original body object and the F83a locked copy. Supply the exact object names shown in the audit JSON; never guess the original body's name. Reject silent source changes.
+- These new scripts have been added to an isolated planning branch, not executed on real .blend assets because this ChatGPT environment has no Blender/bpy installed. Treat them as **prepared, unvalidated** code pending a Blender 5.2.x smoke check; if they fail, report and isolate the script defect rather than changing the mesh.
+- Existing Blender-specific diagnostics in `scripts/meshy/female/` remain the authoritative detailed deformation tests; the new audit does not replace them.
+
 ## Claude usage minimization
 - On session start, inventory/verify available assets and read this plan; no re-telling the entire project history.
 - Limit first execution to F84 manual chest and report-only B audits. If F83a not accessible, stop A and spend time on B only.

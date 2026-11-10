@@ -2,12 +2,12 @@
 Status: planning and preflight. NOT an asset approval or instruction to alter production.
 Owner reports Claude quota resets at 12:00 UK time today. Do not use earlier 13:00 assumptions.
 
-PRE-RESET AUDIT (10 Nov): independent copies of F83a and F23d in ChatGPT Library do NOT match their stated handover SHA-256 hashes, though older F12d and male07c hashes DO match. See docs/CHECKPOINT_AUDIT_20261110.md for exact observed values and procedures. Resolve this at Blender open/locked-geometry inspection BEFORE manually changing F84. No allegation of corruption without inspection.
+CHECKPOINT RE-VERIFICATION (10 Nov): F83a and F23d SHA-256 values MATCH their handover hashes; earlier mismatch claims were wrong. The original male07c and F12d also match. See docs/CHECKPOINT_AUDIT_20261110.md. Next step is the Blender open/object/mesh test, not hash-discrepancy investigation.
 
 ## Authority and preservation
 - Male: 07c is the owner's retained standing structural base. Treat as immutable; verify actual stored .blend SHA, object counts, visual sign-off and transfer availability before recording "V1 locked".
 - Female: F23d is the protected standing source; F83a is the prepared, isolated chest-repair working checkpoint with 7,522 chest-region vertices and packed camera/references. Owner has NOT approved the female chest or female V1. Latest intended child = F84. Do not restart from F11a/F12d or overwrite F23d.
-- Verify current F83a full hash before use; prior handover reported SHA-256 a67ad573aa844199c1eb6bac8d6d0b913a482d95c0111624c737172e2b2bab7a. If this asset is absent, locate/export it first; do not silently reconstruct or substitute.
+- F83a SHA-256 a67ad573aa844199c1eb6bac8d6d0b913a482d95c0111624c737172e2b2bab7a is independently CONFIRMED; use this exact file, then independently perform Blender-open/locked-reference/rig checks.
 - Current GitHub branch claude/home-gym-pt-animation-txux66 last seen on 2026-11-06 at commit 8056f71d. Newer Blender checkpoints are not automatically in Git. Keep licensed .blend and private photos out of public GitHub. Preserve verified offline/private backups.
 - Blender 5.2.x; the prior source opens under 5.2.1 LTS. Avoid accidental saves from earlier Blender versions.
 - Preserve geometry/weights/rigs/references of approved or locked bases. Separate numbered working copies and SHA-256 for every attempt. Never force push or change PT-App/production in this lane.

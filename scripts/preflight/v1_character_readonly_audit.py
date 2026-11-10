@@ -59,6 +59,33 @@ def mesh_fingerprint(mesh):
     return h.hexdigest()
 
 
+
+def vertex_weights_fingerprint(obj):
+    """Include group order/names and source mesh weight assignments."""
+    h = hashlib.sha256()
+    for group in obj.vertex_groups:
+        h.update(group.name.encode("utf-8") + b"\x00")
+    for vertex in obj.data.vertices:
+        assignments = sorted(vertex.groups, key=lambda g: g.group)
+        h.update(struct.pack("<I", len(assignments)))
+        for a in assignments:
+            h.update(struct.pack("<Id", int(a.group), float(a.weight)))
+    return h.hexdigest()
+
+
+def shapekey_fingerprint(mesh):
+    """Hash the actual positions of every Blender shape key, not just their names."""
+    keys = mesh.shape_keys
+    if not keys:
+        return None
+    h = hashlib.sha256()
+    for key in keys.key_blocks:
+        h.update(key.name.encode("utf-8") + b"\x00")
+        h.update(struct.pack("<I", len(key.data)))
+        for point in key.data:
+            h.update(struct.pack("<3d", *map(float, point.co)))
+    return h.hexdigest()
+
 def mesh_info(obj):
     mesh = obj.data
     group_names = {g.index: g.name for g in obj.vertex_groups}
@@ -94,6 +121,8 @@ def mesh_info(obj):
         "vertex_count": len(mesh.vertices), "edge_count": len(mesh.edges),
         "polygon_count": len(mesh.polygons),
         "geometry_sha256": mesh_fingerprint(mesh),
+        "weights_sha256": vertex_weights_fingerprint(obj),
+        "shape_keys_sha256": shapekey_fingerprint(mesh),
         "vertex_groups_count": len(obj.vertex_groups),
         "shape_keys": [k.name for k in mesh.shape_keys.key_blocks] if mesh.shape_keys else [],
         "materials": [m.name if m else None for m in mesh.materials],

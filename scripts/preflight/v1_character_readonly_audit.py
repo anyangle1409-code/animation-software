@@ -2,7 +2,7 @@
 """Read-only Home Gym PT character checkpoint audit for Blender 5.2.x.
 
 Run:
-  blender -b /path/to/checkpoint.blend --factory-startup \
+  blender -b /path/to/checkpoint.blend \
     --python scripts/preflight/v1_character_readonly_audit.py -- \
     --output /path/to/report.json
 

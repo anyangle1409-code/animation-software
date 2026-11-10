@@ -1,29 +1,30 @@
-# Home Gym PT — Read-only stored checkpoint audit (2026-11-10)
+# Home Gym PT — Corrected read-only checkpoint audit (10 November 2026)
 
-Read-only bytes copied from ChatGPT Library into an isolated analysis container, SHA-256 calculated directly from each byte stream. The source Library files were not changed.
+**Correction:** an earlier draft of this report incorrectly recorded SHA-256 mismatches for the F83a and F23d library copies. Re-running `sha256sum` directly over the materialized source bytes confirms BOTH match their handover records exactly. The earlier mismatch claims were erroneous and are withdrawn. No Blender open/deformation test has yet been performed.
 
-| Asset | Byte size | Current observed SHA-256 | Handover expected SHA-256 | Result |
-|---|---:|---|---|---|
-| HGPT_FemaleV1_F83a_ManualChestRebuild_SETUP.blend | 158,522,643 | 5b3b6a079352977a1a0b80697bd2fb4e96935b1f1b77a440dae5d8a468b28bed | a67ad573aa844199c1eb6bac8d6d0b913a482d95c0111624c737172e2b2bab7a | MISMATCH — investigate |
-| HGPT_FemaleV1_F23d_ReferenceChestShape_WIP.blend | 149,283,644 | 2760af9636891971c142548e7d2ca8b0ee6d6662aebde8eab09dd2c5e3c6b497 | 3071c5a06bdfd88865c203115a0a24487b5a0e927e303950431c80358510a51f | MISMATCH — investigate |
-| HGPT_MaleV1_Option5_StandingApprovalCandidate.blend | 70,169,105 | 73b902f16a4d10f5177028dc95127fa2aef0c9e8332e9d648f0b962eb61f6830 | no supplied authoritative expected SHA | CURRENT BASELINE ONLY |
-| HGPT_Female_F12d_ChestShorts_WIP.blend | 151,227,275 | 89df9517421d983e0de812efd2d18a660e19bd6fa0284cdc45945b19affa3b6c | 89df9517421d983e0de812efd2d18a660e19bd6fa0284cdc45945b19affa3b6c | MATCH |
-| HGPT_Male_Rig_07c_StandingCleanup_WIP_PROXY.blend | 18,444,779 | e9448c688d2ae83bc35c18678a353449e226c638298feef1482f123ac74b55a0 | e9448c688d2ae83bc35c18678a353449e226c638298feef1482f123ac74b55a0 | MATCH |
+| Asset | SHA-256 checked from actual source file | Expected handover | Result |
+|---|---|---|---|
+| HGPT_FemaleV1_F83a_ManualChestRebuild_SETUP.blend | `a67ad573aa844199c1eb6bac8d6d0b913a482d95c0111624c737172e2b2bab7a` | same | **MATCH** |
+| HGPT_FemaleV1_F23d_ReferenceChestShape_WIP.blend | `3071c5a06bdfd88865c203115a0a24487b5a0e927e303950431c80358510a51f` | same | **MATCH** |
+| HGPT_Female_F12d_ChestShorts_WIP.blend | `89df9517421d983e0de812efd2d18a660e19bd6fa0284cdc45945b19affa3b6c` | same | **MATCH** |
+| HGPT_Male_Rig_07c_StandingCleanup_WIP_PROXY.blend | `e9448c688d2ae83bc35c18678a353449e226c638298feef1482f123ac74b55a0` | same | **MATCH** |
+| HGPT_MaleV1_Option5_StandingApprovalCandidate.blend | `db79984aba305c42c1fe5ebd0cf5d18d2cfd9a611673d502e3475cb18669399a` | no authoritative handover hash supplied | **measured baseline only** |
 
-All five stored .blend copies start with `BLENDER17-01v0502`, a valid Blender file-header VERSION_1 form (17-byte header). This is NOT a malformed old-format header. Current Blender source supports both 12- and 17-byte headers. The F83a file also contains string occurrences of:
-- `HGPT_Female_Body_F23d_REFERENCE_LOCKED`
-- `HGPT_Female_Body_ChestRebuild_WORKING`
-- `CHEST_REBUILD_REGION`
-- `HGPT_FemaleChest_REFERENCE_FRONT_AND_SIDE`
-- `READ_ME_FEMALE_CHEST_REBUILD`
+The files remain separately preserved, not written to or altered. They were checked using the Linux operating system `sha256sum` command on the original materialized bytes. The F83a and F23d names refer to the EXACT current source files from the user's Library. The earlier incorrect male Option5 baseline is also corrected.
 
-Caution: name/string presence alone does NOT prove the file opens or the embedded geometry is intact. Blender/bpy is not installed in the audit container, so no Blender open/mesh/render verification was performed here. SHA mismatch can reflect an out-of-sync handover or altered asset bytes; do not assume either explanation before inspection. DO NOT rename these files to match the old hashes or declare approval.
+### What this establishes and what it does not
+- **Establishes:** F83a, F23d, F12d and original male07c are byte-for-byte the versions documented in their handovers. There is no hash-identity discrepancy to investigate before F84.
+- **Does not establish:** that Blender 5.2.x can actually open all files, that the F83a locked reference object has unmodified mesh geometry, that its weight maps are valid, or that female V1 is visually approved. Blender/bpy is absent from this audit environment; do not misreport an open test.
+- The F83a file is documented as having the locked F23d body, separate working mesh, CHEST_REBUILD_REGION 7,522 vertices, packed front/side reference and cameras. These still need an actual Blender inspection at Claude session start.
 
-At reset start in Blender 5.2.x:
-1. Identify the exact source copies you can access. Calculate their SHA-256, sizes and header; record in the new session ledger.
-2. Open the ACTUAL F83a in Blender read-only / save a working copy, check the five named objects/region/text and the packed front+side reference, compare F23d locked body against actual F23d separately.
-3. Test original vs current hash discrepancy and locate any alternative original F83a matching the handover hash; DO NOT silently substitute F11a, F12d or unverified reconstruction.
-4. If Blender opens and the locked body matches an independently verified F23d, establish a new verified baseline with an explicit mismatch explanation, then work on a copy (F84). If not, stop geometry changes and return an exact blocker report.
-5. Preserve every version and owners' independent appearance/movement approvals.
+### Reset-start minimum verification
+1. Open the verified F83a directly in Blender 5.2.x in a read-only fashion; check body objects, text block, packed image, editable-region size, rig and modifiers.
+2. Check frozen F23d against its independently verified file and checkpoint. Save work only as a new numbered F84 .blend, never over F83a/F23d.
+3. Produce F84 chest patch and compare bare and clothed front/three-quarter/side, then await user's standing appearance approval.
+4. Perform the separate generic model/rig read-only audit using the audit tool in `scripts/preflight/v1_character_readonly_audit.py` if available, and existing project-specific test scripts; do not rewrite prior test infrastructure.
+5. Preserve audit JSON, images, exact versions and SHA evidence, and continue only after the correct approval gate.
 
-Additional 2026-11-09 equipment read-only audit (ChatGPT Library: HGPT_EQUIPMENT_CHARACTER_COMPATIBILITY_20261109.md): 25/25 checked GLBs imported; Meshy freeweights/macines needed metre-scale corrections because some exports normalize to 1.9m; several machines are single connected mesh and not animation-ready without separate mechanically moving parts, pivots, grip anchors and collision proxies. Do not spend female chest/reset budget on machine separation; first proof uses the already size-corrected dumbbell and verified handle/hand frames.
+### Related equipment audit
+The independent report `HGPT_EQUIPMENT_CHARACTER_COMPATIBILITY_20261109.md` inspected 25 GLBs; several Meshy equipment meshes have scale corrections and the complex machines require separated moving parts/pivots and contact anchors before animated mechanisms. Keep those tasks separate from F84; the first exercise pilot can use a previously scaled dumbbell with verified handles.
+
+**No original checkpoint .blend file was modified during this audit.**

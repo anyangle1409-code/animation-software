@@ -50,6 +50,9 @@ For both male and female, reuse one canonical movement definition and body-relat
 Do NOT transfer to PT-App yet. Only an owner-approved model, motion and release package may be rendered/promoted.
 Then, after explicit approval, use deterministic WebM/MP4 with schema-v2 animation-export.manifest.json containing actual rig/version/character SHA, source motion SHA, approved status, source_exercise_id and stable exercise_id, first-party provenance; run npm run animation:readiness, animation:validate, animation:promote dry-run. Promote exactly one clip with --apply only after explicit owner agreement and full app regression. No direct 3D runtime dependency in PT-App.
 
+## Export fidelity gate (before any approved video render or app intake)
+Blender 5.2 glTF can export bone transforms and morph/shape-key values, but arbitrary Blender mechanisms do not necessarily survive as live runtime logic. Test exact export settings; ensure bone-driven shape-key animations are sampled/baked appropriately. Round-trip a small representative candidate clip (.blend to GLB to fresh Blender/importer or independent reader), compare rest, rack, mid and lockout frames, bone transforms, morph values, garment penetration and cameras with original. A beautiful Blender viewport result is NOT proof of correct exported motion. Keep PT-App playback on first-party rendered WebM/MP4, not a new live third-party 3D runtime.
+
 ## Claude usage minimization
 - On session start, inventory/verify available assets and read this plan; no re-telling the entire project history.
 - Limit first execution to F84 manual chest and report-only B audits. If F83a not accessible, stop A and spend time on B only.
